@@ -30,17 +30,24 @@ def has_valid_annotation(anno):
 
     return False
 
+"""
+transform = A.Compose([
+        A.RandomScale(scale_limit=(-0.9, 1), p=1), #LargeScaleJitter from scale of 0.1 to 2
+        A.PadIfNeeded(256, 256, border_mode=0), #pads with image in the center, not the top left like the paper
+        A.RandomCrop(256, 256),
+        CopyPaste(blend=True, sigma=1, pct_objects_paste=0.8, p=1.) #pct_objects_paste is a guess
+    ], bbox_params=A.BboxParams(format="coco", min_visibility=0.05)
+)
+
+
+data = CocoDetectionCP(root="/home/pervinco/Datasets/COCO2017/train2017", 
+                       annFile="/home/pervinco/Datasets/COCO2017/annotations/instances_train2017.json",
+                       transforms=transform)
+"""
 @copy_paste_class
 class CocoDetectionCP(CocoDetection):
-    def __init__(
-        self,
-        root,
-        annFile,
-        transforms
-    ):
-        super(CocoDetectionCP, self).__init__(
-            root, annFile, None, None, transforms
-        )
+    def __init__(self, root, annFile, transforms):
+        super(CocoDetectionCP, self).__init__(root, annFile, None, None, transforms)
 
         # filter images without detection annotations
         ids = []

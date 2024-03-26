@@ -100,16 +100,8 @@ def keypoints_copy_paste(keypoints, paste_keypoints, alpha):
     return keypoints
 
 class CopyPaste(A.DualTransform):
-    def __init__(
-        self,
-        blend=True,
-        sigma=3,
-        pct_objects_paste=0.1,
-        max_paste_objects=None,
-        p=0.5,
-        always_apply=False
-    ):
-        super(CopyPaste, self).__init__(always_apply, p)
+    def __init__(self, blend=True, sigma=3, pct_objects_paste=0.1, max_paste_objects=None, p=0.5, always_apply=False):
+        super().__init__(always_apply, p)
         self.blend = blend
         self.sigma = sigma
         self.pct_objects_paste = pct_objects_paste
@@ -252,6 +244,7 @@ class CopyPaste(A.DualTransform):
 def copy_paste_class(dataset_class):
     def _split_transforms(self):
         split_index = None
+        print(self.transforms.transforms)
         for ix, tf in enumerate(list(self.transforms.transforms)):
             if tf.get_class_fullname() == 'copypaste.CopyPaste':
                 split_index = ix
